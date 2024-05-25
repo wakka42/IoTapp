@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: playground-deployment
+  namespace: dev
   labels:
     app: playground
 spec:
@@ -18,4 +19,22 @@ spec:
       - name: playground
         image: wil42/playground:v1
         ports:
-        - containerPort: 80
+        - containerPort: 8080
+
+---
+
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: playground-ingress
+  namespace: dev
+spec:
+  entryPoints:
+    - web
+  routes:
+    - kind: Rule
+      match: Host(`192.168.56.162`) # && Path(`test`)
+      priority: 10
+      services:
+        - name: playground-ingress
+          port: 8080
