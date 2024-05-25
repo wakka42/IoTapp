@@ -23,6 +23,19 @@ spec:
 
 ---
 
+apiVersion: v1
+kind: Service
+metadata:
+  name: playground-deployment
+spec:
+  ports:
+    - port: 8888
+      targetPort: 8888
+    selector:
+      app: playground-deployment
+
+---
+
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
