@@ -29,10 +29,10 @@ metadata:
   name: playground-deployment
 spec:
   ports:
-    - port: 8888
-      targetPort: 8888
-    selector:
-      app: playground-deployment
+  - port: 8888
+    targetPort: 8888
+  selector:
+    app: playground-deployment
 
 ---
 
