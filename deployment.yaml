@@ -37,4 +37,4 @@ spec:
       priority: 10
       services:
         - name: playground-ingress
-          port: 8080
+          port: 8888
