@@ -2,42 +2,52 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: playground-deployment
+  namespace: dev
+  labels:
+    app: playground
 spec:
+  replicas: 1
   selector:
     matchLabels:
-      app: playground-deployment
-  replicas: 3
+      app: playground
   template:
     metadata:
       labels:
-        app: playground-deployment
+        app: playground
     spec:
       containers:
-        - name: playground-deployment
-          image: will42/playground:v1
+      - name: playground
+        image: wil42/playground:v1
+        ports:
+        - containerPort: 8888
+
 ---
+
 apiVersion: v1
 kind: Service
 metadata:
   name: playground-deployment
 spec:
   ports:
-  - port: 80
+  - port: 8888
     targetPort: 8888
   selector:
     app: playground-deployment
+
 ---
+
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
   name: playground-deployment
+  namespace: dev
 spec:
   entryPoints:
-    - web
+    - websecure
   routes:
-  - kind: Rule
-    match: Host(`192.168.56.162`)
-    services:
-    - kind: Service
-      name: playground-deployment
-      port: 80
+    - kind: Rule
+      match: Host(`192.168.56.162`) && Path(`test`)
+      priority: 10
+      services:
+        - name: playground-deployment
+          port: 8888
