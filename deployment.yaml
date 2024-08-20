@@ -35,7 +35,7 @@ spec:
     - web
   routes:
   - kind: Rule
-    match: Host(`192.168.56.162`)
+    match: Path(`/wakkapp`)
     services:
     - kind: Service
       name: playground-deployment
