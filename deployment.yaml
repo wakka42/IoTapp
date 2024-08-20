@@ -35,7 +35,8 @@ spec:
     - websecure
   routes:
   - kind: Rule
-    match: Host(`192.168.56.110`) && Path(`/wakkapp`)
+    match: Path(`/wakkapp`)
+    priority: 1
     services:
     - kind: Service
       name: playground-deployment
